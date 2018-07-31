@@ -19,7 +19,6 @@ switch (action) {
       break;
     
     case "spotify-this-song":
-    console.log("spotify");
       spotifier(value);
       break;
     
@@ -33,8 +32,25 @@ switch (action) {
       break;
     }
 
-function spotifier(movieInput) {
+function spotifier(songInput) {
+    spotify.search({ type: 'track', query: songInput, limit: 1 }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+        console.log("Artist: " + JSON.stringify(data.tracks.items[0].artists[0].name));
+        console.log("Song: " + JSON.stringify(data.tracks.items[0].name));
+        console.log("Preview URL: " + JSON.stringify(data.tracks.items[0].preview_url));
+        console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
+    });
 
+//     spotify
+//   .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
+//   .then(function(data) {
+//     console.log(data); 
+//   })
+//   .catch(function(err) {
+//     console.error('Error occurred: ' + err); 
+//   });
 }
     
 function movier(movieInput) {
