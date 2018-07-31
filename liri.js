@@ -1,17 +1,22 @@
+//dotenv requirements
 require("dotenv").config();
 
+//other module requirements
 var fs = require("fs");
 var request = require("request");
 var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
 var keysMod = require('./keys');
 
+//call spotify and twitter info from keys.js file
 var spotify = new Spotify(keysMod.spotify);
 // var client = new Twitter(keys.twitter);
 
+//arguments to variables
 var action = process.argv[2];
 var value = process.argv[3];
 
+//switch to determine action based on first argument
 switch (action) {
     case "my-tweets":
     console.log("twitter");
@@ -31,6 +36,7 @@ switch (action) {
       break;
     }
 
+//spotifier function to call spotify info
 function spotifier(songInput) {
     spotify.search({ type: 'track', query: songInput, limit: 1 }, function(err, data) {
         if (err) {
@@ -42,7 +48,8 @@ function spotifier(songInput) {
         console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
     });
 }
-    
+
+//movier function to call omdb info
 function movier(movieInput) {
     request("http://www.omdbapi.com/?t=" + movieInput + "&y=&plot=short&apikey=trilogy", function(error, response, body) {
 
@@ -63,6 +70,7 @@ function movier(movieInput) {
     });
 }
 
+//doer function to call spotifier function based on arguments listed in random.txt file 
 function doer() {
     fs.readFile("random.txt", "utf8", function(error, data) {
         if (error) {
