@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+var fs = require("fs");
 var request = require("request");
 var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
@@ -10,7 +11,6 @@ var spotify = new Spotify(keysMod.spotify);
 
 var action = process.argv[2];
 var value = process.argv[3];
-
 
 switch (action) {
     case "my-tweets":
@@ -27,8 +27,7 @@ switch (action) {
       break;
     
     case "do-what-it-says":
-    console.log("do what it says");
-    //   doer();
+      doer();
       break;
     }
 
@@ -42,15 +41,6 @@ function spotifier(songInput) {
         console.log("Preview URL: " + JSON.stringify(data.tracks.items[0].preview_url));
         console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name));
     });
-
-//     spotify
-//   .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
-//   .then(function(data) {
-//     console.log(data); 
-//   })
-//   .catch(function(err) {
-//     console.error('Error occurred: ' + err); 
-//   });
 }
     
 function movier(movieInput) {
@@ -70,5 +60,16 @@ function movier(movieInput) {
         console.log("Plot: " + JSON.parse(body).Plot);
         console.log("Actors: " + JSON.parse(body).Actors);
     }
+    });
+}
+
+function doer() {
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        if (error) {
+            return console.log(error);
+        }
+
+        var toArray = data.split(",");
+        spotifier(toArray[1]);
     });
 }
