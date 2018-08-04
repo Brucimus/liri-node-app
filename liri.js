@@ -40,8 +40,12 @@ switch (action) {
 function twitterer() {
     client.get('statuses/user_timeline', function(error, tweets, response) {
         if(error) throw error;
-        console.log(tweets[0].created_at)
-        console.log(tweets[0].text);  // The favorites.
+        for (i = 19; i > -1 ; i--) {
+            if (tweets[i]) {
+                console.log(tweets[i].created_at)
+                console.log(tweets[i].text);
+            }
+        }  // The favorites.
         // console.log(response);  // Raw response object.
       });
 }
