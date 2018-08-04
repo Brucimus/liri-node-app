@@ -10,7 +10,7 @@ var keysMod = require('./keys');
 
 //call spotify and twitter info from keys.js file
 var spotify = new Spotify(keysMod.spotify);
-// var client = new Twitter(keys.twitter);
+var client = new Twitter(keysMod.twitter);
 
 //arguments to variables
 var action = process.argv[2];
@@ -20,7 +20,7 @@ var value = process.argv[3];
 switch (action) {
     case "my-tweets":
     console.log("twitter");
-    //   twitterer(value);
+      twitterer(value);
       break;
     
     case "spotify-this-song":
@@ -35,6 +35,16 @@ switch (action) {
       doer();
       break;
     }
+
+//twitter function to call twitter info
+function twitterer() {
+    client.get('statuses/user_timeline', function(error, tweets, response) {
+        if(error) throw error;
+        console.log(tweets[0].created_at)
+        console.log(tweets[0].text);  // The favorites.
+        // console.log(response);  // Raw response object.
+      });
+}
 
 //spotifier function to call spotify info
 function spotifier(songInput) {
