@@ -19,7 +19,6 @@ var value = process.argv[3];
 //switch to determine action based on first argument
 switch (action) {
     case "my-tweets":
-    console.log("twitter");
       twitterer(value);
       break;
     
@@ -38,15 +37,17 @@ switch (action) {
 
 //twitter function to call twitter info
 function twitterer() {
-    client.get('statuses/user_timeline', function(error, tweets, response) {
+    client.get('statuses/user_timeline', function(error, tweets) {
         if(error) throw error;
+
+        //works backwards so that the earliest tweets show up first
         for (i = 19; i > -1 ; i--) {
+
+            //if there are less than 20 tweets, print the number of tweets there are
             if (tweets[i]) {
-                console.log(tweets[i].created_at)
-                console.log(tweets[i].text);
+                console.log("Created: " + tweets[i].created_at + "\nTweet: " + tweets[i].text + "\n------------------------------")
             }
-        }  // The favorites.
-        // console.log(response);  // Raw response object.
+        }
       });
 }
 
