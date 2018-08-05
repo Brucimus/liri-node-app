@@ -7,6 +7,7 @@ var request = require("request");
 var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
 var keysMod = require('./keys');
+var moment = require('moment');
 
 //call spotify and twitter info from keys.js file
 var spotify = new Spotify(keysMod.spotify);
@@ -14,7 +15,9 @@ var client = new Twitter(keysMod.twitter);
 
 //arguments to variables
 var action = process.argv[2];
-var value = process.argv[3];
+
+//allows arguments to be made without the need of quotations
+var value = process.argv.slice(3).join(" ");
 
 //switch to determine action based on first argument
 switch (action) {
@@ -45,7 +48,10 @@ function twitterer() {
 
             //if there are less than 20 tweets, print the number of tweets there are
             if (tweets[i]) {
-                console.log("Created: " + tweets[i].created_at + "\nTweet: " + tweets[i].text + "\n------------------------------")
+
+                //change tweet date format to local and a more legible date time format
+                var temp = moment(tweets[i].created_at,"ddd MMM D HH:mm:ss ZZ YYYY").local().format("h:mma M/D/YY");
+                console.log("\nCreated: " + temp + "\nTweet: " + tweets[i].text + "\n\n------------------------------")
             }
         }
       });
