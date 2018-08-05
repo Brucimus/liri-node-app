@@ -36,6 +36,9 @@ switch (action) {
     case "do-what-it-says":
       doer();
       break;
+      
+    default:
+        console.log("Invalid Argument");
     }
 
 //twitter function to call twitter info
